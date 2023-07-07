@@ -31,6 +31,13 @@ for(let eachUser of usersData) {
     cell2.textContent = eachUser.name;
     var cell3 = eachRow.insertCell();
     cell3.textContent = eachUser.phone;
+
+    var cell4 = eachRow.insertCell();
+    cell4.innerHTML = `<div><i class="bi bi-pencil-square"></i></div>`;
+    cell4.addEventListener("click", updateUser);
+    var cell5 = eachRow.insertCell();
+    cell5.innerHTML = `<div><i class="bi bi-trash3-fill"></i></div>`;
+    cell5.addEventListener("click", deleteUser);
 }
 
 

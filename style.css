@@ -1,6 +1,9 @@
 body {
     background-color: #d9d9d9;
     font-family: 'Nunito Sans', sans-serif;
+    display:flex;
+    align-items: center;
+    flex-direction: column;
 }
 
 .root {
@@ -29,9 +32,8 @@ body {
     border-radius: 10px;
 }
 
-
 .dialog {
-    visibility: hidden;
+    display:none;
 }
 
 ul {

@@ -1,3 +1,6 @@
+var mainTab = document.getElementsByClassName("main")[0];
+
+// Users region
 var usersData = [
     {name: "bhanu", roomNo: 200, phone: "9009878788"},
     {name: "meher", roomNo: 2001, phone: "9009878788"},
@@ -6,45 +9,57 @@ var usersData = [
     {name: "sai", roomNo: 200, phone: "9009878788"}
 ];
 
-var usersTableHeaders = ["Room No", "Name", "Phone no"];
+var usersTab = document.getElementsByClassName("usersTab")[0];
+usersTab.addEventListener("click", displayUsersTab);
 
-var btnAddNewUser = document.createElement("button");
-btnAddNewUser.textContent = "Add New User";
-btnAddNewUser.addEventListener("click", displayNewUserDialog);
+function displayUsersTab() {
+    var usersTableHeaders = ["Room No", "Name", "Phone no"];
 
-var usersTable = document.createElement("table");
-usersTable.className = "usersTable";
-var usersTablerow = usersTable.createTHead().insertRow();
-
-for(let eachHeader of usersTableHeaders) {
-    var th = document.createElement("th");
-    th.textContent = eachHeader;
-    usersTablerow.appendChild(th);
-}
-
-for(let eachUser of usersData) {
-    var eachRow = usersTable.insertRow();
+    var btnAddNewUser = document.createElement("button");
+    btnAddNewUser.textContent = "Add New User";
+    btnAddNewUser.addEventListener("click", displayNewUserDialog);
     
-    var cell1 = eachRow.insertCell();
-    cell1.textContent = eachUser.roomNo;
-    var cell2 = eachRow.insertCell();
-    cell2.textContent = eachUser.name;
-    var cell3 = eachRow.insertCell();
-    cell3.textContent = eachUser.phone;
+    var usersTable = document.createElement("table");
+    usersTable.className = "usersTable";
+    var usersTablerow = usersTable.createTHead().insertRow();
+    for(let eachHeader of usersTableHeaders) {
+        var th = document.createElement("th");
+        th.textContent = eachHeader;
+        usersTablerow.appendChild(th);
+    }
 
-    var cell4 = eachRow.insertCell();
-    cell4.innerHTML = `<div><i class="bi bi-pencil-square"></i></div>`;
-    cell4.addEventListener("click", updateUser);
-    var cell5 = eachRow.insertCell();
-    cell5.innerHTML = `<div><i class="bi bi-trash3-fill"></i></div>`;
-    cell5.addEventListener("click", deleteUser);
+    for(let eachUser of usersData) {
+        var eachRow = usersTable.insertRow();
+        
+        var cell1 = eachRow.insertCell();
+        cell1.textContent = eachUser.roomNo;
+        var cell2 = eachRow.insertCell();
+        cell2.textContent = eachUser.name;
+        var cell3 = eachRow.insertCell();
+        cell3.textContent = eachUser.phone;
+    
+        var cell4 = eachRow.insertCell();
+        cell4.innerHTML = `<div><i class="bi bi-pencil-square"></i></div>`;
+        cell4.addEventListener("click", updateUser);
+        var cell5 = eachRow.insertCell();
+        cell5.innerHTML = `<div><i class="bi bi-trash3-fill"></i></div>`;
+        cell5.addEventListener("click", deleteUser);
+    }
+
+    mainTab.innerHTML = "";
+    mainTab.appendChild(btnAddNewUser);
+    mainTab.appendChild(usersTable)
+
 }
 
+function updateUser() {
 
-var mainTab = document.getElementsByClassName("main")[0];
-mainTab.appendChild(btnAddNewUser);
-mainTab.appendChild(usersTable)
+}
 
+function deleteUser(e) {
+    console.log(e.target.parentNode.parentNode.parentNode);
+    e.target.parentNode.parentNode.parentNode.remove();
+}
 
 var dialogElement = document.getElementsByClassName("dialog")[0];
 
@@ -101,6 +116,12 @@ function addNewUser() {
         row.insertCell().textContent = roomNoInput.value;
         row.insertCell().textContent = nameInput.value;
         row.insertCell().textContent = phoneNoInput.value;
+        var cell4 = row.insertCell();
+        cell4.innerHTML = `<div><i class="bi bi-pencil-square"></i></div>`;
+        cell4.addEventListener("click", updateUser);
+        var cell5 = row.insertCell();
+        cell5.innerHTML = `<div><i class="bi bi-trash3-fill"></i></div>`;
+        cell5.addEventListener("click", deleteUser);
         usersData.push({name: nameInput.value, roomNo: roomNoInput.value, phoneNo:phoneNoInput.value })
         console.log(usersData)
         dialogElement.textContent = "User added Successfully";
@@ -111,6 +132,7 @@ function addNewUser() {
 }
 
 function removeDialog() {
-    dialogElement.style = "display:nonex"
+    dialogElement.style = "display:none"
 }
 
+// Users region ends

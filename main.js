@@ -52,7 +52,15 @@ function displayUsersTab() {
 
 }
 
-function updateUser() {
+function updateUser(e) {
+    let tempRow = e.target.parentNode.parentNode.parentNode;
+    console.dir(tempRow);
+    roomNo = tempRow.children[0].textContent;
+    phoneNo = tempRow.children[1].textContent;
+    var name = tempRow.children[2].textContent;
+
+    console.log(roomNo, phoneNo, name)
+    tempRow.remove();
 
 }
 
@@ -136,3 +144,116 @@ function removeDialog() {
 }
 
 // Users region ends
+
+
+//Dashboard region starts
+
+let dashboardTab = document.getElementsByClassName("dashboardTab")[0];
+
+dashboardTab.addEventListener("click", displayDashBoardTab);
+
+function displayDashBoardTab() {
+    mainTab.innerHTML = "";
+    console.log("Dashboard")
+}
+
+
+
+let promise = new Promise(
+    function (resolve, reject) {
+        let x = 10;
+        let y = 520;
+
+       
+
+       resolve("FDFdfdf")
+        
+    }
+);
+
+console.log(promise)
+
+promise.then(res => {
+    
+}).catch(res => {
+    console.log(res)
+});
+
+
+// async function fetchApi() {
+//     let res =  await fetch("https://jsonplaceholder.typicode.com/posts");
+    
+    
+//     console.log(res);
+    
+// }
+
+
+fetch("https://api.github.com/users/vasantakmr")
+.then(
+    (res) => res.json() )
+.then(json => {
+    console.log(json) 
+    return fetch(json.repos_url)
+}).then(
+    (res) => res.json()
+).then((reposData) => {
+    console.log(reposData)
+});
+
+
+
+// fetchApi();
+
+
+function fetchUsersData() {
+
+  return new Promise((resolve, reject) => {
+
+    // Simulating an API call with setTimeout
+
+    setTimeout(() => {
+
+      const weatherData = [    {name: "bhanu", roomNo: 200, phone: "9009878788", doj: "1689377161"},
+      {name: "meher", roomNo: 2001, phone: "9009878788", doj: "1689377161" },
+      {name: "mouli", roomNo: 200, phone: "9009878788", doj: "1689377161"},
+      {name: "meghana", roomNo: 200, phone: "9009878788"},
+      {name: "sai", roomNo: 200, phone: "9009878788"}]
+      resolve(weatherData); // Resolving the promise with the weather data
+
+    }, 2000); // Simulating a delay of 2 seconds
+
+  });
+
+}
+
+ 
+
+// Consuming the promise and displaying the weather
+
+
+pendingPayments = []
+
+fetchUsersData()
+
+  .then(weatherData => {
+
+    for(let e of weatherData) {
+        if(e.doj <1643647374734) {
+            pendingPayments.push(e);
+        } else if () {
+            updateUser.push(e)
+        }
+
+        //call to updsate rthe UI
+    }
+  })
+
+  .catch(error => {
+
+    console.log('Error:', error);
+
+  });
+
+
+//Dashboard region ends

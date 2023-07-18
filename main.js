@@ -152,58 +152,118 @@ let dashboardTab = document.getElementsByClassName("dashboardTab")[0];
 
 dashboardTab.addEventListener("click", displayDashBoardTab);
 
+pendingPaymentsArr = [];
+updateUserArr = [];
+newUsersArr = [];
+
 function displayDashBoardTab() {
     mainTab.innerHTML = "";
     console.log("Dashboard")
+
+
+    let tabs = document.createElement("div");
+    tabs.className = "tabInterface";
+
+    let paymentPendingUsersTab = document.createElement("div");
+    paymentPendingUsersTab.className = "paymentPendingUsersTab eachTab activeUsersTab";
+    paymentPendingUsersTab.textContent = "Pending Payments";
+    paymentPendingUsersTab.addEventListener("click", displayUsersDashboardTable);
+
+    let upcomingPaymentUsersTab = document.createElement("div");
+    upcomingPaymentUsersTab.className = "upcomingPaymentUsersTab eachTab";
+    upcomingPaymentUsersTab.textContent = "Upcoming Payments";
+    upcomingPaymentUsersTab.addEventListener("click", displayUsersDashboardTable);
+
+    let newUsersTab = document.createElement("div");
+    newUsersTab.className = "newUsersTab eachTab";
+    newUsersTab.textContent = "New Users";
+    newUsersTab.addEventListener("click", displayUsersDashboardTable);
+
+    tabs.appendChild(paymentPendingUsersTab);
+    tabs.appendChild(upcomingPaymentUsersTab);
+    tabs.appendChild(newUsersTab);
+    
+    fetchUsersData().then(usersData => {
+        for(let e of usersData) {
+            if(e.roomNo <= 300 ) {
+                pendingPaymentsArr.push(e);
+            } else if (e.roomNo <= 500) {
+                updateUserArr.push(e)
+            } else if (e.roomNo <= 700) {
+                newUsersArr.push(e)
+            }
+        }
+      }).catch(error => {
+        console.log('Error:', error);
+      });
+    
+    
+
+    
+    
+    
+    
+    mainTab.appendChild(tabs);
 }
 
 
+function displayUsersDashboardTable(e) {
+    updateActiveTabTheme(e.target)
+    updateDashboardTableData(e.target);
+}
 
-let promise = new Promise(
-    function (resolve, reject) {
-        let x = 10;
-        let y = 520;
+function updateDashboardTableData(target) {
+    // let allDataRows = document.getElementsByClassName("dataRow");
+    // let usersLength = allDataRows.length;
+    // for(let i = 0; i<usersLength; i++) {
+    //     allDataRows[0].remove();
+    // }
 
-       
-
-       resolve("FDFdfdf")
-        
+    if(target.classList.contains("upcomingPaymentUsersTab")) {
+        usersData = updateUserArr;
+    } else if(target.classList.contains("paymentPendingUsersTab")) {
+        usersData = pendingPaymentsArr;
+    } else if(target.classList.contains("newUsersTab")) {
+        usersData = newUsersArr;
     }
-);
 
-console.log(promise)
+    document.getElementsByClassName("dashboardUsersTable")[0]?.remove();
 
-promise.then(res => {
-    
-}).catch(res => {
-    console.log(res)
-});
+    var usersTableHeaders = ["Room No", "Name", "Phone no" ];
+    var dashboardUsersTable = document.createElement("table");
+    dashboardUsersTable.className = "dashboardUsersTable";
+    var usersTablerow = dashboardUsersTable.createTHead().insertRow();
+    for(let eachHeader of usersTableHeaders) {
+        var th = document.createElement("th");
+        th.textContent = eachHeader;
+        usersTablerow.appendChild(th);
+    }
 
+    for(let eachUser of usersData) {
+        var eachRow = dashboardUsersTable.insertRow();
+        eachRow.classList.add("dataRow");
 
-// async function fetchApi() {
-//     let res =  await fetch("https://jsonplaceholder.typicode.com/posts");
-    
-    
-//     console.log(res);
-    
-// }
+        var cell1 = eachRow.insertCell();
+        cell1.textContent = eachUser.roomNo;
+        var cell2 = eachRow.insertCell();
+        cell2.textContent = eachUser.name;
+        var cell3 = eachRow.insertCell();
+        cell3.textContent = eachUser.phone;
+    }
 
+    mainTab.appendChild(dashboardUsersTable);
+}
 
-fetch("https://api.github.com/users/vasantakmr")
-.then(
-    (res) => res.json() )
-.then(json => {
-    console.log(json) 
-    return fetch(json.repos_url)
-}).then(
-    (res) => res.json()
-).then((reposData) => {
-    console.log(reposData)
-});
+function updateActiveTabTheme(target) {
+    let allTabs = document.getElementsByClassName("eachTab");
+    for(let eachTab of allTabs) {
+        eachTab.classList.remove("activeUsersTab")
+    }
 
+    target.classList.add("activeUsersTab")
 
+}
 
-// fetchApi();
 
 
 function fetchUsersData() {
@@ -214,12 +274,12 @@ function fetchUsersData() {
 
     setTimeout(() => {
 
-      const weatherData = [    {name: "bhanu", roomNo: 200, phone: "9009878788", doj: "1689377161"},
-      {name: "meher", roomNo: 2001, phone: "9009878788", doj: "1689377161" },
-      {name: "mouli", roomNo: 200, phone: "9009878788", doj: "1689377161"},
-      {name: "meghana", roomNo: 200, phone: "9009878788"},
-      {name: "sai", roomNo: 200, phone: "9009878788"}]
-      resolve(weatherData); // Resolving the promise with the weather data
+      const usersData = [    {name: "bhanu", roomNo: 200, phone: "9009878788", doj: "1689377161"},
+      {name: "meher", roomNo: 300, phone: "9009878788", doj: "1689377161" },
+      {name: "mouli", roomNo: 400, phone: "9009878788", doj: "1689377161"},
+      {name: "meghana", roomNo: 500, phone: "9009878788"},
+      {name: "sai", roomNo: 600, phone: "9009878788"}]
+      resolve(usersData); // Resolving the promise with the weather data
 
     }, 2000); // Simulating a delay of 2 seconds
 
@@ -230,30 +290,6 @@ function fetchUsersData() {
  
 
 // Consuming the promise and displaying the weather
-
-
-pendingPayments = []
-
-fetchUsersData()
-
-  .then(weatherData => {
-
-    for(let e of weatherData) {
-        if(e.doj <1643647374734) {
-            pendingPayments.push(e);
-        } else if () {
-            updateUser.push(e)
-        }
-
-        //call to updsate rthe UI
-    }
-  })
-
-  .catch(error => {
-
-    console.log('Error:', error);
-
-  });
 
 
 //Dashboard region ends

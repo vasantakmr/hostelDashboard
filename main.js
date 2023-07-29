@@ -287,9 +287,45 @@ function fetchUsersData() {
 
 }
 
- 
+
 
 // Consuming the promise and displaying the weather
 
 
 //Dashboard region ends
+
+
+// fetchUsersData().then((data) => {
+//     console.log(data);
+// }).then().then()
+
+async function FetchData() {
+    let value = await fetchUsersData();
+    let value2 = fetchUsersData();
+
+    console.log(value)
+    console.log(value2)
+}
+
+(function () {
+    console.log("Helloworld!");
+})();
+
+
+let a = (data) => {
+    console.log(data)
+}
+
+a("Helloworld");
+
+
+for(let eachuser in usersData) {
+    console.log(usersData[eachuser])
+}
+
+function windowHistory() {
+    
+    console.log(window.location.href)
+}
+
+windowHistory();

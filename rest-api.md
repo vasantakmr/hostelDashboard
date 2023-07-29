@@ -1,4 +1,4 @@
-REST API: set of rules which every developer has to follow. 
+REST API: set of rules which every developer has to follow to  allow programs to talk to each other over http.
 
 1. client server architecture: makes a request to a particular URL(URI)
 
@@ -12,7 +12,7 @@ users/taniarascia/repos: path
 
 ?per_page=100 : query parameters, & is used as a separator for query parameters
 
-Rest API allows programs to talk to each other.
+
 
 
 Request is made of 4 things:
@@ -27,7 +27,7 @@ Request is made of 4 things:
     Accept: what is the client expecting in a response 
     Content-type: what format is the request body is in. 
 
-4. Data/body: contains the data which client wants to send to the server.
+4. Data/body/payload: contains the data which client wants to send to the server.
 
 
 Response Contains: 
@@ -51,3 +51,6 @@ Response Contains:
 2. REST is stateless. no prior data about the client is stored with he server.
 3. REST cacheability
 
+
+1. Create Rest Api
+2. Consume Rest Api
